@@ -2,9 +2,7 @@
 #include <string>
 #include <vector>
 
-/*
- * Trie tree(后缀树)
- */
+// Trie tree
 
 using namespace std;
 
