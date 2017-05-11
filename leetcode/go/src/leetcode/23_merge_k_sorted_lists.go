@@ -73,7 +73,6 @@ func mergeKLists(lists []*ListNode) *ListNode {
 
 	for len(h) != 0 {
 		item := heap.Pop(&h).(*ListNode)
-		fmt.Println(item)
 		root.Next = item
 		root = root.Next
 		if item.Next != nil {
