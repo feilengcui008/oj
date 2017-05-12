@@ -10,6 +10,54 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+func PreOrder(root *TreeNode, res *[]int) {
+	if root == nil {
+		return
+	}
+	*res = append(*res, root.Val)
+	PreOrder(root.Left, res)
+	PreOrder(root.Right, res)
+}
+
+func InOrder(root *TreeNode, res *[]int) {
+	if root == nil {
+		return
+	}
+	InOrder(root.Left, res)
+	*res = append(*res, root.Val)
+	InOrder(root.Right, res)
+}
+
+func PostOrder(root *TreeNode, res *[]int) {
+	if root == nil {
+		return
+	}
+	PostOrder(root.Left, res)
+	PostOrder(root.Right, res)
+	*res = append(*res, root.Val)
+}
+
+func GetHeight(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	l := GetHeight(root.Left)
+	r := GetHeight(root.Right)
+	if l > r {
+		return l + 1
+	}
+	return r + 1
+}
+
+func IsBalanced(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+	l := GetHeight(root.Left)
+	r := GetHeight(root.Right)
+	return IsBalanced(root.Left) && IsBalanced(root.Right) && (l == r || l == r+1 || l == r-1)
+}
+
 type Queue interface {
 	Push(interface{})
 	Pop() error

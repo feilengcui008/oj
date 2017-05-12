@@ -4,25 +4,6 @@ import (
 	"testing"
 )
 
-func PreOrder(root *TreeNode, res *[]int) {
-	if root == nil {
-		return
-	}
-	*res = append(*res, root.Val)
-	PreOrder(root.Left, res)
-	PreOrder(root.Right, res)
-}
-
-func InOrder(root *TreeNode, res *[]int) {
-	if root == nil {
-		return
-	}
-	InOrder(root.Left, res)
-	*res = append(*res, root.Val)
-	InOrder(root.Right, res)
-}
-
-// 105
 func Test_105(t *testing.T) {
 	preorderdata := [][]int{
 		[]int{-1},
