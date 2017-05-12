@@ -1,12 +1,5 @@
 package leetcode
 
-//import "fmt"
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
-
 // time: O(n), space: O(1)
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	if l1 == nil {
