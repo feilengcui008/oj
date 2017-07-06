@@ -11,52 +11,51 @@ using namespace std;
 // access, we just skip the delete ones when
 // rand are called.
 class RandomizedCollection {
-  public:
-    /** Initialize your data structure here. */
-    RandomizedCollection() = default;
+ public:
+  /** Initialize your data structure here. */
+  RandomizedCollection() = default;
 
-    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
-    bool insert(int val)
-    {
-      keys_.push_back(val);
-      data_.insert(val);
-      auto pos = data_.find(val);
-      if (pos != data_.end()) {
-        return false;
-      }
-      return true;
-    }
-
-    /** Removes a value from the set. Returns true if the set contained the specified element. */
-    bool remove(int val)
-    {
-      auto pos = data_.find(val);
-      if (pos != data_.end()) {
-        data_.erase(pos);
-        // remove one key
-        vector<int>::iterator iter = keys_.begin();
-        for (; iter != keys_.end(); ++iter) {
-          if (*iter == val) break;
-        }
-        keys_.erase(iter);
-        return true;
-      }
+  /** Inserts a value to the set. Returns true if the set did not already
+   * contain the specified element. */
+  bool insert(int val) {
+    keys_.push_back(val);
+    data_.insert(val);
+    auto pos = data_.find(val);
+    if (pos != data_.end()) {
       return false;
     }
+    return true;
+  }
 
-    /** Get a random element from the set. */
-    int getRandom()
-    {
-      //if (data_.size() == 0) return undefined
-      int size = keys_.size();
-      std::random_device rd;
-      unsigned int index = rd() % size;
-      return keys_[index];
+  /** Removes a value from the set. Returns true if the set contained the
+   * specified element. */
+  bool remove(int val) {
+    auto pos = data_.find(val);
+    if (pos != data_.end()) {
+      data_.erase(pos);
+      // remove one key
+      vector<int>::iterator iter = keys_.begin();
+      for (; iter != keys_.end(); ++iter) {
+        if (*iter == val) break;
+      }
+      keys_.erase(iter);
+      return true;
     }
+    return false;
+  }
 
-  private:
-    vector<int> keys_;
-    unordered_multiset<int> data_;
+  /** Get a random element from the set. */
+  int getRandom() {
+    // if (data_.size() == 0) return undefined
+    int size = keys_.size();
+    std::random_device rd;
+    unsigned int index = rd() % size;
+    return keys_[index];
+  }
+
+ private:
+  vector<int> keys_;
+  unordered_multiset<int> data_;
 };
 
 /**
@@ -67,8 +66,7 @@ class RandomizedCollection {
  * int param_3 = obj.getRandom();
  */
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   RandomizedCollection obj;
   bool param_1 = obj.insert(2);
   // true

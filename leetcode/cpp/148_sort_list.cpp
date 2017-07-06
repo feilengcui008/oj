@@ -7,114 +7,111 @@ struct ListNode {
 };
 
 class Solution {
-  public:
-    ListNode *sortList(ListNode* head) 
-    {
-      if (head == nullptr || head->next == nullptr)
-        return head;
-      int i = 0;
-      ListNode *temp = head;
-      while (temp != nullptr) {
-        i++;
-        temp = temp->next;
-      }
-      //std::cout << "the number of list nodes is : " << i << std::endl;
-      listMergeSort(&head, 0, i - 1);
-      return head;
+ public:
+  ListNode *sortList(ListNode *head) {
+    if (head == nullptr || head->next == nullptr) return head;
+    int i = 0;
+    ListNode *temp = head;
+    while (temp != nullptr) {
+      i++;
+      temp = temp->next;
+    }
+    // std::cout << "the number of list nodes is : " << i << std::endl;
+    listMergeSort(&head, 0, i - 1);
+    return head;
+  }
+
+  // 注意传入指针的指针，因为我们要修改root
+  void listMerge(ListNode **root, int l, int middle, int r) {
+    // std::cout << "in listMerge " << " l: " << l << " middle: " << middle << "
+    // r: " << r << std::endl;
+    ListNode *leftBegin = *root;
+    ListNode *rightBegin = *root;
+    // dummyroot.next is the new root pointer to be returned
+    ListNode dummyNode(0);
+    ListNode *dummyroot = &dummyNode;
+    // count middle in the left part
+    int leftCount = middle - l + 1;
+    int rightCount = r - middle;
+    // save the pointer
+    ListNode *pre = *root;
+    for (int i = 0; i < l - 1; ++i) {
+      pre = pre->next;
+    }
+    ListNode *end = *root;
+    for (int i = 0; i <= r; ++i) {
+      end = end->next;
+    }
+    // std::cout << "i am here" << std::endl;
+    // first we move the two head pointers to the specific positions
+    for (int i = 0; i < l; ++i) {
+      leftBegin = leftBegin->next;
+    }
+    for (int i = 0; i <= middle; ++i) {
+      rightBegin = rightBegin->next;
     }
 
-    // 注意传入指针的指针，因为我们要修改root
-    void listMerge(ListNode **root, int l, int middle, int r)
-    {
-      //std::cout << "in listMerge " << " l: " << l << " middle: " << middle << " r: " << r << std::endl;
-      ListNode *leftBegin = *root;
-      ListNode *rightBegin = *root;
-      // dummyroot.next is the new root pointer to be returned  
-      ListNode dummyNode(0); 
-      ListNode *dummyroot = &dummyNode;
-      // count middle in the left part
-      int leftCount = middle - l + 1;
-      int rightCount = r - middle;
-      // save the pointer 
-      ListNode *pre = *root;
-      for (int i = 0; i < l - 1; ++i) {
-        pre = pre->next;
-      }
-      ListNode *end = *root;
-      for (int i = 0; i <= r; ++i) {
-        end = end->next;
-      }
-      // std::cout << "i am here" << std::endl;
-      // first we move the two head pointers to the specific positions 
-      for (int i = 0; i < l; ++i) {
+    // do the merge
+    for (;;) {
+      if (leftCount <= 0 || rightCount <= 0) break;
+      if (leftBegin->val < rightBegin->val) {
+        dummyroot->next = leftBegin;
         leftBegin = leftBegin->next;
-      }
-      for (int i = 0; i <= middle; ++i) {
+        dummyroot = dummyroot->next;
+        leftCount--;
+      } else {
+        dummyroot->next = rightBegin;
         rightBegin = rightBegin->next;
-      }
-
-      // do the merge 
-      for (;;) {
-        if (leftCount <= 0 || rightCount <= 0)
-          break;
-        if (leftBegin->val < rightBegin->val) {
-          dummyroot->next = leftBegin;
-          leftBegin = leftBegin->next;
-          dummyroot = dummyroot->next;
-          leftCount--;
-        } else {
-          dummyroot->next = rightBegin;
-          rightBegin = rightBegin->next;
-          dummyroot = dummyroot->next;
-          rightCount--;
-        }
-      }
-      // at least one half finished 
-      //std::cout << "leftCount : " << leftCount << std::endl;
-      //std::cout << "rightCount : " << rightCount << std::endl;
-      if (leftCount > 0) {
-        while (leftCount > 0) {
-          dummyroot->next = leftBegin;
-          dummyroot = dummyroot->next;
-          leftBegin = leftBegin->next;
-          leftCount--;
-        }
-      } 
-      if (rightCount > 0) {
-        while (rightCount > 0) {
-          dummyroot->next = rightBegin;
-          dummyroot = dummyroot->next;
-          rightBegin = rightBegin->next;
-          rightCount--;
-        }
-      }
-
-      // reconnect front
-      if (l != 0) {
-        pre->next = dummyNode.next;
-      }
-      // reconnect back 
-      dummyroot->next = end;
-
-      // l == 0, replace root 
-      if (l == 0) *root = dummyNode.next; 
-      //std::cout << "after listMerge: " << " l: " << l << " r: " << r << " " << (*root)->val << std::endl;
-    }
-
-    void listMergeSort(ListNode **root, int l, int r) 
-    { 
-      //std::cout << "in listMergeSort : " << " l: " << l << " r: " << r << std::endl;
-      if (l < r) {
-        int middle = (l + r) / 2;
-        listMergeSort(root, l, middle);
-        listMergeSort(root, middle + 1, r);
-        listMerge(root, l, middle, r);
+        dummyroot = dummyroot->next;
+        rightCount--;
       }
     }
+    // at least one half finished
+    // std::cout << "leftCount : " << leftCount << std::endl;
+    // std::cout << "rightCount : " << rightCount << std::endl;
+    if (leftCount > 0) {
+      while (leftCount > 0) {
+        dummyroot->next = leftBegin;
+        dummyroot = dummyroot->next;
+        leftBegin = leftBegin->next;
+        leftCount--;
+      }
+    }
+    if (rightCount > 0) {
+      while (rightCount > 0) {
+        dummyroot->next = rightBegin;
+        dummyroot = dummyroot->next;
+        rightBegin = rightBegin->next;
+        rightCount--;
+      }
+    }
+
+    // reconnect front
+    if (l != 0) {
+      pre->next = dummyNode.next;
+    }
+    // reconnect back
+    dummyroot->next = end;
+
+    // l == 0, replace root
+    if (l == 0) *root = dummyNode.next;
+    // std::cout << "after listMerge: " << " l: " << l << " r: " << r << " " <<
+    // (*root)->val << std::endl;
+  }
+
+  void listMergeSort(ListNode **root, int l, int r) {
+    // std::cout << "in listMergeSort : " << " l: " << l << " r: " << r <<
+    // std::endl;
+    if (l < r) {
+      int middle = (l + r) / 2;
+      listMergeSort(root, l, middle);
+      listMergeSort(root, middle + 1, r);
+      listMerge(root, l, middle, r);
+    }
+  }
 };
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   ListNode *n0 = new ListNode(1);
   ListNode *n1 = new ListNode(2);
   ListNode *n2 = new ListNode(6);
@@ -137,16 +134,16 @@ int main(int argc, char *argv[])
      Solution s;
      */
 
-  /* 
-  // there are some bugs 
+  /*
+  // there are some bugs
   while (n00 != nullptr) {
-  std::cout << n00->val << std::endl;  
+  std::cout << n00->val << std::endl;
   n00 = n00->next;
   }
   */
   ListNode *res = s.sortList(n0);
   while (res != nullptr) {
-    std::cout << res->val << std::endl;  
+    std::cout << res->val << std::endl;
     res = res->next;
   }
   return 0;

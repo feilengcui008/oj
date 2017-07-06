@@ -2,7 +2,6 @@
 
 using namespace std;
 
-
 struct ListNode {
   int val;
   ListNode *next;
@@ -10,36 +9,35 @@ struct ListNode {
 };
 
 class Solution {
-  public:
-    // time: O(n), space: O(1)
-    ListNode* rotateRight(ListNode* head, int k)
-    {
-      // corner case
-      if (head == nullptr || head->next == nullptr) return head;
-      int n = 0;
-      ListNode *temp = head;
-      ListNode *newRoot, *tail;
-      while (temp->next != nullptr) {
-        n++;
-        temp = temp->next;
-      }
-      tail = temp; n++;
-      k = k % n;
-      if (k == 0) return head;
-      // rotate
-      temp = head;
-      for (int i = 0; i < (n - k - 1); ++i) {
-        temp = temp->next;
-      }
-      newRoot = temp->next;
-      tail->next = head;
-      temp->next = nullptr;
-      return newRoot;
+ public:
+  // time: O(n), space: O(1)
+  ListNode *rotateRight(ListNode *head, int k) {
+    // corner case
+    if (head == nullptr || head->next == nullptr) return head;
+    int n = 0;
+    ListNode *temp = head;
+    ListNode *newRoot, *tail;
+    while (temp->next != nullptr) {
+      n++;
+      temp = temp->next;
     }
+    tail = temp;
+    n++;
+    k = k % n;
+    if (k == 0) return head;
+    // rotate
+    temp = head;
+    for (int i = 0; i < (n - k - 1); ++i) {
+      temp = temp->next;
+    }
+    newRoot = temp->next;
+    tail->next = head;
+    temp->next = nullptr;
+    return newRoot;
+  }
 };
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   ListNode n1(1);
   ListNode n2(2);
   ListNode n3(3);

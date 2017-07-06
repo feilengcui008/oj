@@ -8,36 +8,34 @@ struct ListNode {
   ListNode(int x) : val(x), next(NULL) {}
 };
 
-
 class Solution {
-  public:
-    ListNode* swapPairs(ListNode* head) 
-    {
-      if (head == nullptr || head->next == nullptr) return head;
-      // at least two nodes
-      ListNode n(-1), *pre = &n;
-      pre->next = head;
-      auto saved = pre;
-      auto first = head, second = first->next;
-      ListNode *temp = nullptr;
-      while (first != nullptr && first->next != nullptr) {
+ public:
+  ListNode *swapPairs(ListNode *head) {
+    if (head == nullptr || head->next == nullptr) return head;
+    // at least two nodes
+    ListNode n(-1), *pre = &n;
+    pre->next = head;
+    auto saved = pre;
+    auto first = head, second = first->next;
+    ListNode *temp = nullptr;
+    while (first != nullptr && first->next != nullptr) {
+      second = first->next;
+      temp = second->next;
+      pre->next = second;
+      second->next = first;
+      first->next = temp;
+      pre = first;
+      first = temp;
+      if (first != nullptr)
         second = first->next;
-        temp = second->next;
-        pre->next = second;
-        second->next = first;
-        first->next = temp;
-        pre = first;
-        first = temp;
-        if (first != nullptr) second = first->next;
-        else second = nullptr;
-      }
-      return saved->next;
+      else
+        second = nullptr;
     }
+    return saved->next;
+  }
 };
 
-
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   ListNode *n1 = new ListNode(1);
   ListNode *n2 = new ListNode(2);
   ListNode *n3 = new ListNode(3);

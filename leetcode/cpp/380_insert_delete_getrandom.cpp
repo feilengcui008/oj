@@ -11,52 +11,51 @@ using namespace std;
 // access, we just skip the delete ones when
 // rand are called.
 class RandomizedSet {
-  public:
-    /** Initialize your data structure here. */
-    RandomizedSet() = default;
+ public:
+  /** Initialize your data structure here. */
+  RandomizedSet() = default;
 
-    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
-    bool insert(int val)
-    {
-      auto pos = data_.find(val);
-      if (pos != data_.end()) {
-        return false;
-      }
-      data_.insert(val);
-      keys_.push_back(val);
-      return true;
-    }
-
-    /** Removes a value from the set. Returns true if the set contained the specified element. */
-    bool remove(int val)
-    {
-      auto pos = data_.find(val);
-      if (pos != data_.end()) {
-        data_.erase(pos);
-        return true;
-      }
+  /** Inserts a value to the set. Returns true if the set did not already
+   * contain the specified element. */
+  bool insert(int val) {
+    auto pos = data_.find(val);
+    if (pos != data_.end()) {
       return false;
     }
+    data_.insert(val);
+    keys_.push_back(val);
+    return true;
+  }
 
-    /** Get a random element from the set. */
-    int getRandom()
-    {
-      //if (data_.size() == 0) return undefined
-      int size = keys_.size();
-      std::random_device rd;
-      unsigned int index;
-      for (;;) {
-        index = rd() % size;
-        if (data_.find(keys_[index]) != data_.end()) {
-          break;
-        }
-      }
-      return keys_[index];
+  /** Removes a value from the set. Returns true if the set contained the
+   * specified element. */
+  bool remove(int val) {
+    auto pos = data_.find(val);
+    if (pos != data_.end()) {
+      data_.erase(pos);
+      return true;
     }
+    return false;
+  }
 
-  private:
-    vector<int> keys_;
-    unordered_set<int> data_;
+  /** Get a random element from the set. */
+  int getRandom() {
+    // if (data_.size() == 0) return undefined
+    int size = keys_.size();
+    std::random_device rd;
+    unsigned int index;
+    for (;;) {
+      index = rd() % size;
+      if (data_.find(keys_[index]) != data_.end()) {
+        break;
+      }
+    }
+    return keys_[index];
+  }
+
+ private:
+  vector<int> keys_;
+  unordered_set<int> data_;
 };
 
 /**
@@ -67,8 +66,7 @@ class RandomizedSet {
  * int param_3 = obj.getRandom();
  */
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   RandomizedSet obj;
   bool param_1 = obj.insert(2);
   // true

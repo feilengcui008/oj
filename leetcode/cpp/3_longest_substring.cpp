@@ -6,28 +6,26 @@
 using namespace std;
 
 class Solution {
-  public:
-    int lengthOfLongestSubstring(string s)
-    {
-      unordered_map<unsigned char, int> um;
-      int size = s.length();
-      int longest = 0;
-      int start = 0;
-      for (int end = 0; end < size; end++) {
-        if (um.find(s[end]) != um.end()) {
-          // notice
-          int temp = um.find(s[end])->second + 1;
-          start = temp>start ? temp : start;
-        }
-        um[s[end]] = end;
-        longest = ((end + 1 - start)>longest) ? (end + 1 - start) : longest;
+ public:
+  int lengthOfLongestSubstring(string s) {
+    unordered_map<unsigned char, int> um;
+    int size = s.length();
+    int longest = 0;
+    int start = 0;
+    for (int end = 0; end < size; end++) {
+      if (um.find(s[end]) != um.end()) {
+        // notice
+        int temp = um.find(s[end])->second + 1;
+        start = temp > start ? temp : start;
       }
-      return longest;
+      um[s[end]] = end;
+      longest = ((end + 1 - start) > longest) ? (end + 1 - start) : longest;
     }
+    return longest;
+  }
 };
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 
   Solution s;
   cout << s.lengthOfLongestSubstring("dvdf") << endl;
